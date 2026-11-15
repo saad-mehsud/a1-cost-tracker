@@ -1,0 +1,11 @@
+[project]
+name = "a1-cost-tracker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "google-genai>=3.3.0",
+    "groq>=1.7.0",
+    "python-dotenv>=1.2.4",
+]
