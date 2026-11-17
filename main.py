@@ -3,8 +3,10 @@ from google.genai import types
 from groq import Groq
 import dotenv as env
 import os
+#Global variable Declaration
 PATH =  os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
 ENVPATH = f"{PATH}/.env"
+userMessages = []
 
 #Load Environment Variables
 env.load_dotenv()
@@ -13,17 +15,15 @@ GroqKey = env.get_key(dotenv_path=ENVPATH,key_to_get="GROQ_API_KEY")
 geminiClient = genai.Client(api_key=GeminiKey)
 groqClient = Groq(api_key=GroqKey)
 
-userMessages = []
 
 def geminiRequest(request):
     interaction = geminiClient.interactions.create(
     model="gemini-4-hydrogen",
-    input=request,
-    stream=True)
-    for events in interaction:
-        print(events)
+    input=request)
+    print(interaction.output_text)
+    print(interaction.usage)
 def groqRequest(request):
-    global userMessages
+    # global userMessages
     userMessages.append({
         "role":"user",
         "content":request
@@ -46,5 +46,5 @@ while(True):
         geminiClient.close()
         groqClient.close()
         break
-    groqRequest(userInput)
+    geminiRequest(userInput)
     print("\n")
