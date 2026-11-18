@@ -1,13 +1,15 @@
+# Imports used in the code
 from google import genai
 from google.genai import types
 from groq import Groq
 import dotenv as env
 import os
+
 #Global variable Declaration
 PATH =  os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
 ENVPATH = f"{PATH}/.env"
 userMessages = []
-
+geminiInteraction = []
 #Load Environment Variables
 env.load_dotenv()
 GeminiKey = env.get_key(dotenv_path = ENVPATH,key_to_get="GEMINI_API_KEY")
@@ -17,11 +19,13 @@ groqClient = Groq(api_key=GroqKey)
 
 
 def geminiRequest(request):
-    interaction = geminiClient.interactions.create(
-    model="gemini-4-hydrogen",
-    input=request)
-    print(interaction.output_text)
-    print(interaction.usage)
+    geminiInteraction.append(geminiClient.interactions.create(
+        model = "gemini-4-hydrogen",
+        input = request,
+        previous_interaction_id = geminiInteraction[-1].id if len(geminiInteraction) > 0 else None 
+    ))
+    print(geminiInteraction[-1].output_text)
+    print(geminiInteraction[-1].usage)
 def groqRequest(request):
     # global userMessages
     userMessages.append({
@@ -46,5 +50,9 @@ while(True):
         geminiClient.close()
         groqClient.close()
         break
+    print("GEMINI OUTPUT\n")
     geminiRequest(userInput)
+    print("Groq OUTPUT\n")
+    groqRequest(userInput)
+    print(f"\nGroq input lists:{userMessages}")
     print("\n")
