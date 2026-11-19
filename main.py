@@ -59,18 +59,24 @@ def groqRequest(request):
         return chat_completion.usage
     except GroqError as ge:
          print(f"Error Occured{ge}")
+         return None
     
     # print(chat_completion.usage)
-def calculateCost(geminiUsage,groqUsage):
-    print(f"Gemini Usage:{geminiUsage}")
-    print(f"Groq Usge:{groqUsage}")
-userInput = "Explain How AI Works in 10 words"
-print("GEMINI OUTPUT\n")
-geminiTokensUsed = geminiRequest(userInput)
-print("Groq OUTPUT\n")
-groqRequest(userInput)
-print(f"\nGroq input lists:{userMessages}")
-print("\n")
+def calculateCost(geminiUsage = None,groqUsage = None):
+    # print(f"Gemini Usage:{geminiUsage}")
+    # print(f"Groq Usge:{groqUsage}")
+    #Gemini
+    if geminiUsage is not None:
+        print(f"Initial Input Tokens{geminiUsage.initial_input_tokens}")
+        print(f"Total Output Tokens:{geminiUsage.total_output_tokens}")
+        print(f"Total Input Tokens:{geminiUsage.total_input_tokens}")
+        print(f"Total Thought Tokens:{geminiUsage.total_thought_tokens}")
+        print(f"Total Tokens Used:{geminiUsage.total_tokens}")
+    #Groq
+    if groqUsage is not None:
+         print(f"Completion Tokens:{groqUsage.completion_tokens}")
+         print(f"Prompt Tokens: {groqUsage.prompt_tokens}")
+         print(f"Total Tokens:{groqUsage.total_tokens}")
 
 while(True):
     userInput = input("Enter Your Prompt:")
@@ -82,6 +88,7 @@ while(True):
     geminiTokensUsed = geminiRequest(userInput)
     print("Groq OUTPUT\n")
     groqTokensUsed = groqRequest(userInput)
+
     calculateCost(geminiTokensUsed,groqTokensUsed)
     print(f"\nGroq input lists:{userMessages}")
     print("\n")
