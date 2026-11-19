@@ -41,8 +41,9 @@ def geminiRequest(request):
             previous_interaction_id = geminiInteraction[-1].id if len(geminiInteraction) > 0 else None,
           ))
         print(geminiInteraction[-1].output_text)
-    except:
-        print("An error occured")
+        return geminiInteraction[-1].usage
+    except Exception as e:
+        print(f"An error occured:{e}")
 def groqRequest(request):
     # global userMessages
     try:
@@ -52,17 +53,24 @@ def groqRequest(request):
         })
         chat_completion = groqClient.chat.completions.create(
         messages=userMessages,
-        model=GROQMODEL,
-        stream=True
+        model=GROQMODEL
         )
+        print(chat_completion.choices[0].message.content)
+        return chat_completion.usage
     except GroqError as ge:
-            print(f"{ge.with_traceback}")
+         print(f"Error Occured{ge}")
     
-    for chunk in chat_completion:
-        print(chunk.choices[0].delta.content or "",end="")
     # print(chat_completion.usage)
-    
-
+def calculateCost(geminiUsage,groqUsage):
+    print(f"Gemini Usage:{geminiUsage}")
+    print(f"Groq Usge:{groqUsage}")
+userInput = "Explain How AI Works in 10 words"
+print("GEMINI OUTPUT\n")
+geminiTokensUsed = geminiRequest(userInput)
+print("Groq OUTPUT\n")
+groqRequest(userInput)
+print(f"\nGroq input lists:{userMessages}")
+print("\n")
 
 while(True):
     userInput = input("Enter Your Prompt:")
@@ -71,8 +79,9 @@ while(True):
         groqClient.close()
         break
     print("GEMINI OUTPUT\n")
-    geminiRequest(userInput)
+    geminiTokensUsed = geminiRequest(userInput)
     print("Groq OUTPUT\n")
-    groqRequest(userInput)
+    groqTokensUsed = groqRequest(userInput)
+    calculateCost(geminiTokensUsed,groqTokensUsed)
     print(f"\nGroq input lists:{userMessages}")
     print("\n")
