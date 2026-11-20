@@ -68,11 +68,7 @@ def groqRequest(request):
     except GroqError as ge:
          print(f"Error Occured{ge}")
          return None
-    
-    # print(chat_completion.usage)
 def calculateCost(geminiUsage = None,groqUsage = None):
-    # print(f"Gemini Usage:{geminiUsage}")
-    # print(f"Groq Usge:{groqUsage}")
     #Gemini
     if geminiUsage is not None:
         print("+++++++++++++++++++++")
@@ -83,11 +79,11 @@ def calculateCost(geminiUsage = None,groqUsage = None):
               \nTotal Input Tokens:{geminiUsage.total_input_tokens}
               \nTotal Thought Tokens:{geminiUsage.total_thought_tokens}
               \nTotal Tokens Used:{geminiUsage.total_tokens}""")
-        inputCost= (geminiUsage.total_input_tokens/10e6) * GENAI_INPUT_COST
-        outputCost = ((geminiUsage.total_output_tokens + geminiUsage.total_thought_tokens)/10e6)*GENAI_OUTPUT_COST
-        geminiCostPerRequest = inputCost + outputCost
-        print(f"Input Cost:{inputCost:.6f}")
-        print(f"Output Cost: {outputCost:.6f}")
+        geminiInputCost= (geminiUsage.total_input_tokens/10e6) * GENAI_INPUT_COST
+        geminiOutputCost = ((geminiUsage.total_output_tokens + geminiUsage.total_thought_tokens)/10e6)*GENAI_OUTPUT_COST
+        geminiCostPerRequest = geminiInputCost + geminiOutputCost
+        print(f"Input Cost:{geminiInputCost:.6f}")
+        print(f"Output Cost: {geminiOutputCost:.6f}")
         print(f"Total Cost:{geminiCostPerRequest:.6f}")
     #Groq
     if groqUsage is not None:
@@ -98,14 +94,23 @@ def calculateCost(geminiUsage = None,groqUsage = None):
          print(f"""Completion Tokens:{groqUsage.completion_tokens}
             \nPrompt Tokens: {groqUsage.prompt_tokens}
             \nTotal Tokens:{groqUsage.total_tokens}""")
-         inputCost = (groqUsage.prompt_tokens/10e6)*0.15
-         outputCost = (groqUsage.completion_tokens/10e6)*0.60
-         groqCostPerRequest = inputCost+outputCost
-         print(f"Input Cost:{inputCost:.6f}")
-         print(f"Output Cost: {outputCost:.6f}")
+         groqInputCost = (groqUsage.prompt_tokens/10e6)*0.15
+         groqOutputCost = (groqUsage.completion_tokens/10e6)*0.60
+         groqCostPerRequest = groqInputCost+groqOutputCost
+         print(f"Input Cost:{groqInputCost:.6f}")
+         print(f"Output Cost: {groqOutputCost:.6f}")
          print(f"Total Cost:{groqCostPerRequest:.6f}")
     if geminiUsage is not None and groqUsage is not None:
-        pass
+        print(f"Cost           Gemini           Groq")
+        print(f"Input Cost     {geminiInputCost:.6f}           {groqInputCost:.6f}")
+        print(f"Output Cost    {geminiOutputCost:.6f}           {groqOutputCost:.6f}")
+        print(f"Cost/Req       {geminiCostPerRequest:.6f}           {groqCostPerRequest:.6f}")
+        if groqCostPerRequest>geminiCostPerRequest:
+            print("Groq Costs More Than Gemini")
+        else:
+            print("Gemini Costs more than Groq")
+    else:
+        print("One of the APIs failed to respond comparison table cannot be created.")
                 
 while(True):
     userInput = input("Enter Your Prompt:")
