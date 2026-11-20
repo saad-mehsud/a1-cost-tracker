@@ -49,6 +49,7 @@ GROQ_OUTPUT_COST =0.60 #USD
 #Function to send requests
 def geminiRequest(request):
     try:
+        
         start_time = time.perf_counter()
         geminiInteraction.append(geminiClient.interactions.create(
             model = GEMINIMODEL,
@@ -58,16 +59,22 @@ def geminiRequest(request):
           ))
         end_time = time.perf_counter()
         gemini_elapsed_time = end_time - start_time
+        print("GEMINI OUTPUT")
         print(geminiInteraction[-1].output_text)
         return (geminiInteraction[-1].usage,gemini_elapsed_time)
     except errors.APIError as ae:
+        print("Gemini Error!!!!!!!!!!!")
         if ae.code in (400,401,403):
             print("Provide a valid and authenticated API Key for Google AI Studio or Gemini.",file=sys.stderr)
+        else:
+            print(f"Code:{ae.code} Message:{ae.message}")
             return (None,0)
     except errors.ServerError as se:
+        print("Gemini Error!!!!!!!!!!!")
         print(f"Internal server error occured:{se}")
     except Exception as e:
-        print(f"An error occured:{e.with_traceback}",file=sys.stderr)
+        print("Gemini Error!!!!!!!!!!!")
+        print(str(e))
         return (None,0)
 
 
@@ -85,16 +92,19 @@ def groqRequest(request):
         )
         end_time = time.perf_counter()
         elapsed_time = end_time - start_time
+        print("Groq OUTPUT")
         print(chat_completion.choices[0].message.content)
         #Adds the reply from the assistant to the chat_history list so it remembers its response and do not respond to the same message again 
         chat_history.append({"role":"assistant","content":chat_completion.choices[0].message.content})
         return (chat_completion.usage,elapsed_time)
     except groq.AuthenticationError as ae:
-         print(f"Error occured while authenticating with server.Provide correct API key for groq client.",file=sys.stderr)
-         return (None,None)
+        print("GROQ Error!!!!!!!!!!!")
+        print(f"Error occured while authenticating with server.Provide correct API key for groq client.",file=sys.stderr)
+        return (None,0)
     except groq.APIError as ae:
-         print(f"Error occured:{ae.message}")
-         return (None,None)
+        print("GROQ Error!!!!!!!!!!!")
+        print(f"Error occured:{ae.message}")
+        return (None,0)
 
 
 
@@ -142,8 +152,8 @@ def calculateCost(geminiUsage = None,groqUsage = None):
 
 
 def compareSpeed(geminiTime = 0,groqTime = 0):
-    print(f"Gemini Time:{geminiTime:.3f}s")
-    print(f"Groq Time:{groqTime:.3f}s")      
+    print(f"Gemini Time:{geminiTime:.3f}s" if geminiTime != 0 else "Failed to respond")
+    print(f"Groq Time:{groqTime:.3f}s" if groqTime != 0 else "Failed to respond")      
     if geminiTime == 0 or groqTime == 0: 
         print("One or more model/s failed to provide response,comparison cannot be done.")
     elif geminiTime > groqTime:
@@ -158,9 +168,7 @@ while(True):
         geminiClient.close()
         groqClient.close()
         break
-    print("Groq OUTPUT")
     groqTokensUsed,groqElapsedTime = groqRequest(userInput)
-    print("GEMINI OUTPUT")
     geminiTokensUsed,geminiElapsedTime = geminiRequest(userInput)
     calculateCost(geminiTokensUsed,groqTokensUsed)
     compareSpeed(geminiElapsedTime,groqElapsedTime)
