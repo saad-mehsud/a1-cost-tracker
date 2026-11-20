@@ -52,38 +52,168 @@ The model responses and token counts vary for every request. A typical run
 looks like this:
 
 ```text
-Enter Your Prompt: Explain variables in Python
-GEMINI OUTPUT
-
-Variables store references to values, such as numbers or strings.
+Enter Your Prompt:what is AI 
 Groq OUTPUT
-
-A variable is a name that points to a value in a Python program.
-+++++++++++++++++++++
+Artificial intelligence is the field of computer science that creates systems capable of learning, reasoning, and decision‑making.
+GEMINI OUTPUT
+Artificial Intelligence is the simulation of human intelligence by computer systems, enabling machines to learn, reason, and solve problems.
 +++ Gemini's Cost +++
-+++++++++++++++++++++
-Initial Input Tokens: 12
-Total Output Tokens: 28
-Total Input Tokens: 12
-Total Thought Tokens: 0
-Total Tokens Used: 40
-Input Cost:0.000002
-Output Cost: 0.000021
-Total Cost:0.000023
-+++++++++++++++++++++
+Total Input Tokens:49
+              Total Output Tokens:23
+              Total Thought Tokens:0
+              Total Tokens Used:72
+Input Cost:0.000001
+Output Cost: 0.000006
+Total Cost:0.000007
 +++  Groq's Cost  +++
-+++++++++++++++++++++
-Completion Tokens:20
-Prompt Tokens: 18
-Total Tokens:38
-Input Cost:0.000000
-Output Cost: 0.000001
-Total Cost:0.000001
+Completion Tokens:167
+            
+Prompt Tokens: 116
+            
+Total Tokens:283
+Input Cost:0.000002
+Output Cost: 0.000010
+Total Cost:0.000012
 Cost           Gemini           Groq
-Input Cost     0.000002           0.000000
-Output Cost    0.000021           0.000001
-Cost/Req       0.000023           0.000001
-Gemini Costs more than Groq
+Input Cost     0.000001           0.000002
+Output Cost    0.000006           0.000010
+Cost/Req       0.000007           0.000012
+Groq Costs More Than Gemini
+Gemini Time:7.777s
+Groq Time:1.614s
+Groq is faster than Gemini.
+
+
+Enter Your Prompt:Who was the first person to discover the land of America
+Groq OUTPUT
+The first known European to reach America was Christopher Columbus in 1492.
+GEMINI OUTPUT
+Indigenous peoples were the first to inhabit America, while Christopher Columbus led the first documented European voyage there.
++++ Gemini's Cost +++
+Total Input Tokens:85
+              Total Output Tokens:20
+              Total Thought Tokens:0
+              Total Tokens Used:105
+Input Cost:0.000003
+Output Cost: 0.000005
+Total Cost:0.000008
++++  Groq's Cost  +++
+Completion Tokens:179
+            
+Prompt Tokens: 159
+            
+Total Tokens:338
+Input Cost:0.000002
+Output Cost: 0.000011
+Total Cost:0.000013
+Cost           Gemini           Groq
+Input Cost     0.000003           0.000002
+Output Cost    0.000005           0.000011
+Cost/Req       0.000008           0.000013
+Groq Costs More Than Gemini
+Gemini Time:3.086s
+Groq Time:1.527s
+Groq is faster than Gemini.
+
+
+Enter Your Prompt:What is the difference between science and philosophy 
+Groq OUTPUT
+Science empirically tests hypotheses about the natural world; philosophy critically examines concepts, reasoning, and fundamental questions beyond empirical verification.
+GEMINI OUTPUT
+Science relies on empirical observation and experimentation, whereas philosophy uses rational argument and conceptual analysis to understand existence.
++++ Gemini's Cost +++
+Total Input Tokens:116
+              Total Output Tokens:20
+              Total Thought Tokens:0
+              Total Tokens Used:136
+Input Cost:0.000003
+Output Cost: 0.000005
+Total Cost:0.000008
++++  Groq's Cost  +++
+Completion Tokens:186
+            
+Prompt Tokens: 193
+            
+Total Tokens:379
+Input Cost:0.000003
+Output Cost: 0.000011
+Total Cost:0.000014
+Cost           Gemini           Groq
+Input Cost     0.000003           0.000003
+Output Cost    0.000005           0.000011
+Cost/Req       0.000008           0.000014
+Groq Costs More Than Gemini
+Gemini Time:3.590s
+Groq Time:1.810s
+Groq is faster than Gemini.
+
+
+Enter Your Prompt:Now Why was british empire called a Colonial System
+Groq OUTPUT
+Because Britain established overseas settlements, exploited resources, governed territories, and imposed political control over colonized peoples.
+GEMINI OUTPUT
+It was called a colonial system because Britain established control over vast overseas territories to extract economic resources.
++++ Gemini's Cost +++
+Total Input Tokens:147
+              Total Output Tokens:19
+              Total Thought Tokens:0
+              Total Tokens Used:166
+Input Cost:0.000004
+Output Cost: 0.000005
+Total Cost:0.000009
++++  Groq's Cost  +++
+Completion Tokens:188
+            
+Prompt Tokens: 236
+            
+Total Tokens:424
+Input Cost:0.000004
+Output Cost: 0.000011
+Total Cost:0.000015
+Cost           Gemini           Groq
+Input Cost     0.000004           0.000004
+Output Cost    0.000005           0.000011
+Cost/Req       0.000009           0.000015
+Groq Costs More Than Gemini
+Gemini Time:6.639s
+Groq Time:1.401s
+Groq is faster than Gemini.
+
+
+Enter Your Prompt:Did british introduced this system are was someone else
+Groq OUTPUT
+Britain expanded earlier European colonial models; Spain and Portugal pioneered colonization, Britain later adopted and systematized it.
+GEMINI OUTPUT
+Britain did not invent colonialism, as many ancient and contemporary powers also established vast global empires.
++++ Gemini's Cost +++
+Total Input Tokens:177
+              Total Output Tokens:18
+              Total Thought Tokens:0
+              Total Tokens Used:195
+Input Cost:0.000005
+Output Cost: 0.000005
+Total Cost:0.000010
++++  Groq's Cost  +++
+Completion Tokens:188
+            
+Prompt Tokens: 276
+            
+Total Tokens:464
+Input Cost:0.000004
+Output Cost: 0.000011
+Total Cost:0.000015
+Cost           Gemini           Groq
+Input Cost     0.000005           0.000004
+Output Cost    0.000005           0.000011
+Cost/Req       0.000010           0.000015
+Groq Costs More Than Gemini
+Gemini Time:7.082s
+Groq Time:1.881s
+Groq is faster than Gemini.
+
+
+Enter Your Prompt:exit
+
 ```
 
 The exact formatting and values depend on the selected models and the API
