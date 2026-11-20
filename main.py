@@ -36,7 +36,10 @@ groqClient = Groq(api_key=GROQKEY)
 # avoid conflicting output prices.
 GENAI_INPUT_COST = 1.5 #USD
 GENAI_OUTPUT_COST = 7.50 #USD
-
+# These prices are only for gpt-oss-120b model kindly use the same model while testing the code to avoid 
+#conflicting results
+GROQ_INPUT_COST = 0.15 #USD
+GROQ_OUTPUT_COST =0.60 #USD
 #Function to send requests
 def geminiRequest(request):
     try:
@@ -94,8 +97,8 @@ def calculateCost(geminiUsage = None,groqUsage = None):
          print(f"""Completion Tokens:{groqUsage.completion_tokens}
             \nPrompt Tokens: {groqUsage.prompt_tokens}
             \nTotal Tokens:{groqUsage.total_tokens}""")
-         groqInputCost = (groqUsage.prompt_tokens/10e6)*0.15
-         groqOutputCost = (groqUsage.completion_tokens/10e6)*0.60
+         groqInputCost = (groqUsage.prompt_tokens/10e6)*GROQ_INPUT_COST
+         groqOutputCost = (groqUsage.completion_tokens/10e6)*GROQ_OUTPUT_COST
          groqCostPerRequest = groqInputCost+groqOutputCost
          print(f"Input Cost:{groqInputCost:.6f}")
          print(f"Output Cost: {groqOutputCost:.6f}")
