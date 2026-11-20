@@ -7,7 +7,7 @@ import dotenv as env
 
 #Global variable Declaration
 PATH =  os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-ENVPATH = f"{PATH}/.env.example"
+ENVPATH = f"{PATH}/.env"
 # System instruction that will be passed to both the systems
 systemInstruction = """1.Avoid Using Markdown text format in the responses it should be plain text.
 2.Do not use Emojis keep the text formal.
